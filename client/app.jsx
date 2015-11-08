@@ -22,26 +22,25 @@ Meteor
         '<link rel="stylesheet" href="css/app.ios.css">');
     }
 
-
-
-    $$(document).on('pageBeforeAnimation', function(e) {
-      var pageUrl = e.detail.page.url;
-      if (pageUrl.indexOf('#settings') == -1) {
-        console.log('NO SETTINGS');
-        $$('body').removeClass('settings');
-      } else {
-        console.log('SETTINGS');
-        $$('body').addClass('settings');
-        f7.sizeNavbars('.view-main .navbar');
-      }
-    });
+    $$(document)
+      .on('pageBeforeAnimation', function(e) {
+        var pageUrl = e.detail.page.url;
+        if (pageUrl.indexOf('#settings') == -1) {
+          console.log('NO SETTINGS');
+          $$('body').removeClass('settings');
+        } else {
+          console.log('SETTINGS');
+          $$('body').addClass('settings');
+          f7.sizeNavbars('.view-main .navbar');
+        }
+      });
 
     var f7 = new Framework7({
       // Enable Material theme for Android device only
       material: isAndroid
         ? true
         : false,
-      pushState: false,
+      pushState: true,
       dynamicPageUrl: '{{name}}'
     });
 
@@ -63,12 +62,28 @@ Meteor
 
     f7.onPageInit('*', function(page) {
       //console.log('page.name', page.name);
-      if(page){
+      if (page) {
         //ReactDOM.render(Utils.pages.getPage(page.name), page.container);
       }
     });
 
-
+    $$(document).on('click', 'a[data-back]', function(e) {
+      var link = $$(e.target);
+      if (!link.is('a[data-back]')) {
+        link = link.parents('a[data-back]');
+      }
+      var view = link.attr('data-view');
+      if (view) {
+        if (view == 'leftView') {
+          container = leftView;
+        } else {
+          container = mainView;
+        }
+      } else {
+        container = mainView;
+      }
+      container.router.back();
+    });
 
     $$(document).on('click', 'a[data-page]', function(e) {
       var link = $$(e.target);
@@ -79,8 +94,8 @@ Meteor
       var page = link.attr('data-page'); //.replace('/', '_');
       var view = link.attr('data-view');
       var container;
-      if(view){
-        if(view == 'leftView'){
+      if (view) {
+        if (view == 'leftView') {
           container = leftView;
         } else {
           container = mainView;
@@ -89,22 +104,11 @@ Meteor
         container = mainView;
       }
 
-      var newPageEl = document.createElement('DIV');
-      ReactDOM.render(Utils.pages.getPage(page), newPageEl);
-
-      container.router.load({
-          content: newPageEl//'<div class="page with-subnavbar" data-page="' + page + '"></div>'
-        });
+      Utils.pages.loadPage(page, container);
     }, true);
 
-
-
     // render content in menu right after startup
-    setTimeout(function(){
-      ReactDOM.render(Utils.pages.getPage('menu/tab1'), document.getElementById('menu-content'));
-    }, 500);
-
-
-
+    Utils.pages.loadPage('default', mainView);
+    Utils.pages.loadPage('menu/tab1', leftView);
 
   });

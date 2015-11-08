@@ -28,11 +28,11 @@ app.initFastClicks = function () {
     }
     function isInsideScrollableView(el) {
         var pageContent = el.parents('.page-content, .panel');
-        
+
         if (pageContent.length === 0) {
             return false;
         }
-        
+
         // This event handler covers the "tap to stop scrolling".
         if (pageContent.prop('scrollHandlerSet') !== 'yes') {
             pageContent.on('scroll', function() {
@@ -41,7 +41,7 @@ app.initFastClicks = function () {
             });
             pageContent.prop('scrollHandlerSet', 'yes');
         }
-        
+
         return true;
     }
     function addActive() {
@@ -174,21 +174,37 @@ app.initFastClicks = function () {
 
     function removeRipple() {
         if (!rippleWave) return;
+        var toRemove = rippleWave;
+
+        var removeTimeout = setTimeout(function () {
+            toRemove.remove();
+        }, 400);
+
         rippleWave
             .addClass('ripple-wave-fill')
             .transform(rippleTransform.replace('scale(1)', 'scale(1.01)'))
             .transitionEnd(function () {
+                clearTimeout(removeTimeout);
+
                 var rippleWave = $(this)
                     .addClass('ripple-wave-out')
                     .transform(rippleTransform.replace('scale(1)', 'scale(1.01)'));
+
+                removeTimeout = setTimeout(function () {
+                    rippleWave.remove();
+                }, 700);
+
                 setTimeout(function () {
                     rippleWave.transitionEnd(function(){
+                        clearTimeout(removeTimeout);
                         $(this).remove();
                     });
                 }, 0);
             });
+
         rippleWave = rippleTarget = undefined;
     }
+
     function rippleTouchStart (el, x, y) {
         rippleTarget = findRippleElement(el);
         if (!rippleTarget || rippleTarget.length === 0) {
@@ -218,7 +234,7 @@ app.initFastClicks = function () {
             setTimeout(removeRipple, 0);
         }
         else {
-            removeRipple();   
+            removeRipple();
         }
     }
 
@@ -297,7 +313,7 @@ app.initFastClicks = function () {
         if ((e.timeStamp - lastClickTime) < app.params.fastClicksDelayBetweenClicks) {
             e.preventDefault();
         }
-        
+
         if (app.params.activeState) {
             activableElement = findActivableElement(targetElement);
             // If it's inside a scrollable view, we don't trigger active-state yet,
@@ -384,7 +400,7 @@ app.initFastClicks = function () {
         }
 
         // Add active-state here because, in a very fast tap, the timeout didn't
-        // have the chance to execute. Removing active-state in a timeout gives 
+        // have the chance to execute. Removing active-state in a timeout gives
         // the chance to the animation execute.
         if (app.params.activeState) {
             addActive();
@@ -423,14 +439,14 @@ app.initFastClicks = function () {
     function handleTouchCancel(e) {
         trackClick = false;
         targetElement = null;
-        
+
         // Remove Active State
         clearTimeout(activeTimeout);
         clearTimeout(tapHoldTimeout);
         if (app.params.activeState) {
             removeActive();
         }
-        
+
         // Remove Ripple
         if (app.params.material && app.params.materialRipple) {
             rippleTouchEnd();
@@ -439,7 +455,7 @@ app.initFastClicks = function () {
 
     function handleClick(e) {
         var allowClick = false;
-        
+
         if (trackClick) {
             targetElement = null;
             trackClick = false;
@@ -490,12 +506,12 @@ app.initFastClicks = function () {
                 tapHoldFired = false;
             }, (app.device.ios || app.device.androidChrome ? 100 : 400));
         }
-            
+
         return allowClick;
     }
     if (app.support.touch) {
         document.addEventListener('click', handleClick, true);
-        
+
         document.addEventListener('touchstart', handleTouchStart);
         document.addEventListener('touchmove', handleTouchMove);
         document.addEventListener('touchend', handleTouchEnd);
@@ -514,5 +530,5 @@ app.initFastClicks = function () {
             rippleTouchEnd();
         });
     }
-        
+
 };

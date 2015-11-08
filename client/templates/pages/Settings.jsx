@@ -1,41 +1,42 @@
-Utils.pages.addPage('settings', React.createClass({
-  mixins: [ReactMeteorData],
+Utils.pages.addPage('settings', {
 
-  getMeteorData() {
-    return {
-      pages: Pages.find({}).fetch()
-    }
-  },
+    page: React.createClass({
+      mixins: [ReactMeteorData],
 
-  renderPages() {
-    return this.data.pages.map((page) => {
-      console.log('Page', page);
-      return <PageMenuItem key={page._id} page={page} />;
-    });
-  },
+      getMeteorData () {
+        return {pages: Pages.find({}).fetch()}
+      },
 
-  render () {
-    return (
-      <div>
-      <div className="navbar">
-        <div className="navbar-inner">
-          <div className="left">
-            <a href="#" data-panel="left" className="menu-panel-btn link open-panel icon-only">
-              <i className="icon icon-bars"></i>
-            </a>
+      renderPages () {
+        return this.data.pages.map((page) => {
+            return <PageMenuItem key={page._id} page={page}/>;
+          });
+      },
+
+      render () {
+        return (
+          <div className="page-content">
+            <div className="content-block-title">Settings Content</div>
+            {this.renderPages()}
           </div>
-          <div className="center sliding">Settings</div>
-        </div>
-      </div>
+        );
+      }
+    }),
+    navbar: React.createClass({
+      // Navbar
 
-      <div className="page" data-page="Settings">
-      <div className="page-content">
-        <div className="content-block-title">Settings</div>
-        {this.renderPages()}
-      </div>
-
-    </div>
-  </div>
-    );
-  }
-}));
+      render () {
+        return (
+          <div className="navbar-inner">
+            <div className="left">
+              <a href="#" data-back="back" className="link">
+                  <i className="icon icon-back"></i>
+                  <span>Back</span>
+              </a>
+            </div>
+            <div className="center sliding">Settings Navbar</div>
+          </div>
+        );
+      }
+    })
+  });
