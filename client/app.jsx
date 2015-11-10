@@ -52,11 +52,13 @@ Meteor
     }
 
     leftView = f7.addView('.view-left', {
-      dynamicNavbar: true
+      dynamicNavbar: true,
+      domCache: true
     });
 
     mainView = f7.addView('.view-main', {
-      dynamicNavbar: true
+      dynamicNavbar: true,
+      domCache: true
     });
 
     f7.onPageInit('*', function(page) {
@@ -92,6 +94,17 @@ Meteor
 
       var page = link.attr('data-page'); //.replace('/', '_');
       var view = link.attr('data-view');
+      var anim = link.attr('data-anim');
+      console.log(anim);
+      if(anim){
+        if(anim == 'true'){
+          anim = true;
+        } else {
+          anim = false;
+        }
+      } else {
+        anim = true;
+      }
       var container;
       if (view) {
         if (view == 'leftView') {
@@ -103,11 +116,11 @@ Meteor
         container = mainView;
       }
 
-      Utils.pages.loadPage(page, container);
+      Utils.pages.loadPage(page, container, anim);
     }, true);
 
     // render content in menu right after startup
-    Utils.pages.loadPage('default', mainView);
-    Utils.pages.loadPage('menu/tab1', leftView);
+    Utils.pages.loadPage('default', mainView, false);
+    Utils.pages.loadPage('menu/tab1', leftView, false);
 
   });

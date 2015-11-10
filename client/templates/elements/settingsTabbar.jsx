@@ -10,7 +10,7 @@ Utils.elements.addElement('settingsTabbar', React.createClass({
 
 
         return tabBtns.map((tab) => {
-            return <a key={tab.page} data-page={tab.page} data-view="mainView" className={this.props.active==tab.page?'tab-link active':'tab-link'}><i className={Framework7.prototype.device.android===true?tab.androidIcon+' ionicons':tab.iOSicon+' ionicons'}></i><span className="tabbar-label">{tab.label}</span></a>
+            return <a key={tab.page} data-page={tab.page} data-view="mainView" data-anim="false" className={this.props.active==tab.page?'tab-link active':'tab-link'}><i className={Framework7.prototype.device.android===true?tab.androidIcon+' ionicons':tab.iOSicon+' ionicons'}></i><span className="tabbar-label">{tab.label}</span></a>
           });
       },
 

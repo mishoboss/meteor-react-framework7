@@ -24,7 +24,10 @@ Utils.elements.getElement = function (elementName) {
 }
 
 
-Utils.pages.loadPage = function (pageName, view) {
+Utils.pages.loadPage = function (pageName, view, anim) {
+  if(typeof anim == 'undefined'){
+    anim: true
+  }
   $$(document).once('pageBeforeInit', '.page[data-page="' + pageName + '"]', function(e) {
       var page = e.detail.page;
 
@@ -51,10 +54,12 @@ Utils.pages.loadPage = function (pageName, view) {
     if(window.appPages.hasOwnProperty(pageName)){
       if(Framework7.prototype.device.android===true){
         view.router.load({
+            animatePages: anim,
             content: '<div class="page" data-page="' + pageName + '"></div>'
           });
         } else {
           view.router.load({
+              animatePages: anim,
               content: '<div class="navbar"><div class="navbar-inner"></div></div><div class="page" data-page="' + pageName + '"></div>'
             });
         }
