@@ -26,10 +26,8 @@ Meteor
       .on('pageBeforeAnimation', function(e) {
         var pageUrl = e.detail.page.url;
         if (pageUrl.indexOf('#settings') == -1) {
-          console.log('NO SETTINGS');
           $$('body').removeClass('settings');
         } else {
-          console.log('SETTINGS');
           $$('body').addClass('settings');
           f7.sizeNavbars('.view-main .navbar');
         }
@@ -41,7 +39,8 @@ Meteor
         ? true
         : false,
       pushState: true,
-      dynamicPageUrl: '{{name}}'
+      dynamicPageUrl: '{{name}}',
+      uniqueHistory: true
     });
 
     if (isAndroid) {
