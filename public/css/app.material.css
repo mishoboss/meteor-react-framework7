@@ -1,0 +1,15 @@
+.page-wrapper {
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 56px;
+  width: 100%;
+  height: calc(100% - 56px);
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+}
+
+.settings-page-wrapper {
+  padding-top:72px;
+  padding-bottom:0px;
+}

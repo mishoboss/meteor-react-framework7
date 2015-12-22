@@ -1,0 +1,41 @@
+.theme-selector:after, .layout-selector:after {
+    margin: 16px 0px;
+}
+
+.theme-option, .layout-option {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 3px;
+  border: 1px solid #504e4e;
+  cursor: pointer;
+  cursor: hand;
+  -webkit-box-shadow: inset 0px 2px 5px 0px rgba(50, 50, 50, 0.7);
+  box-shadow:         inset 0px 2px 5px 0px rgba(50, 50, 50, 0.7);
+  position: relative;
+}
+
+.theme-option.selected, .layout-option.selected {
+  &:after {
+    font-family: "Ionicons";
+    content: "\f122";
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    position: absolute;
+    width:18px;
+    height:18px;
+    text-align: center;
+    font-size: 18px;
+    margin-left:-9px;
+    margin-top:-9px;
+    line-height: 18px;
+    left: 50%;
+    top: 50%;
+  }
+}
+
+div.layout-option {
+  width: 50px;
+  height: 50px;
+}

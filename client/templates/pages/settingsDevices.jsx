@@ -5,30 +5,36 @@ Utils.pages.addPage('settings/devices', {
       mixins: [ReactMeteorData],
 
       getMeteorData () {
-        return {pages: Pages.find({}).fetch()}
+        console.log('Devices!', Devices);
+        return {devices: Devices.find().fetch()}
       },
 
-      renderPages () {
-        var PageMenuItem = Utils.elements.getElement('pageMenuItem');
-        return this.data.pages.map((page) => {
-            return <PageMenuItem key={page._id} page={page}/>;
+      renderDevices () {
+        console.log('this.data', this.data);
+        var DeviceListItem = Utils.elements.getElement('deviceListItem');
+        return this.data.devices.map((device) => {
+            return <DeviceListItem key={device._id} page={device}/>;
           });
       },
 
       render () {
-        var SettingsTabbar = Utils.elements.getElement('settingsTabbar');
         return (
           <div className="page-wrapper" style={{height: 'calc(100% - 100px)', paddingTop: (Framework7.prototype.device.android===true?'72px':'0px'), paddingBottom: (Framework7.prototype.device.android===true?'55px':'0px')}}>
             <div className="page-content">
               <div className="content-block-title">Settings</div>
               <div className="content-block">
-              {this.renderPages()}
+                <div className="list-block">
+                  <ul>
+                    {this.renderDevices()}
+                  </ul>
+                </div>
               </div>
             </div>
-            <SettingsTabbar active='settings/devices'/>
+            {this.props.children}
           </div>
         );
       }
     }), props:{}},
-    navbar: {class: Utils.elements.getElement('settingsNavbar'), props:{title:'Settings / Devices'}}
+    navbar: {class: Utils.elements.getElement('settingsNavbar'), props:{title:'Settings / Devices'}},
+    toolbar: {class: Utils.elements.getElement('settingsTabbar'), props:{active:'settings/devices'}}
   });

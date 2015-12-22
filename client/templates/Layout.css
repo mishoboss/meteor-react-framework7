@@ -83,18 +83,6 @@ body.with-panel-right-reveal .panel-overlay {
 }
 
 
-.page-wrapper {
-  box-sizing: border-box;
-  position: absolute;
-  left: 0;
-  top: 45px;
-  width: 100%;
-  height: calc(100% - 50px);
-  background: #fff;
-  -webkit-transform: translate3d(0,0,0);
-  transform: translate3d(0,0,0);
-}
-
 .navbar-fixed .page-content, .navbar-through .page-content {
      padding-top: 0px !important;
 }

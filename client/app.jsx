@@ -1,9 +1,18 @@
 Meteor
   .startup(function() {
-
+    GoogleMaps.load();
     ReactDOM.render(
       <Layout/>, document.getElementById("react-main-wrapper"));
     Meteor.subscribe("pages");
+    Meteor.subscribe("devices");
+    Meteor.subscribe("rules");
+    Meteor.subscribe("users");
+    Meteor.subscribe("adapters");
+    Meteor.subscribe("users");
+    Meteor.subscribe("options", function(){
+      var theme = Utils.options.getOption('theme', {theme: 'blue', layout: 'white'});
+      $$('body').addClass('theme-'+theme.theme).addClass('layout-'+theme.layout);
+    });
 
     isAndroid = Framework7.prototype.device.android === true;
     isIos = Framework7.prototype.device.ios === true;
@@ -13,12 +22,10 @@ Meteor
     if (isAndroid) {
       $$('head').append('<link rel="stylesheet" href="packages/mishoboss_framework7/framework7/dist/css/framework7.material.min.css">' +
         '<link rel="stylesheet" href="packages/mishoboss_framework7/framework7/dist/css/framework7.material.colors.min.css">' +
-        '<link rel="stylesheet" href="css/app.css">' +
         '<link rel="stylesheet" href="css/app.material.css">');
     } else {
       $$('head').append('<link rel="stylesheet" href="packages/mishoboss_framework7/framework7/dist/css/framework7.ios.min.css">' +
         '<link rel="stylesheet" href="packages/mishoboss_framework7/framework7/dist/css/framework7.ios.colors.min.css">' +
-        '<link rel="stylesheet" href="css/app.css">' +
         '<link rel="stylesheet" href="css/app.ios.css">');
     }
 
@@ -32,6 +39,8 @@ Meteor
           f7.sizeNavbars('.view-main .navbar');
         }
       });
+
+
 
     var f7 = new Framework7({
       // Enable Material theme for Android device only
@@ -94,7 +103,7 @@ Meteor
       var page = link.attr('data-page'); //.replace('/', '_');
       var view = link.attr('data-view');
       var anim = link.attr('data-anim');
-      console.log(anim);
+
       if(anim){
         if(anim == 'true'){
           anim = true;
@@ -118,6 +127,7 @@ Meteor
       Utils.pages.loadPage(page, container, anim);
     }, true);
 
+    Utils.refs.f7 = f7;
     // render content in menu right after startup
     Utils.pages.loadPage('default', mainView, false);
     Utils.pages.loadPage('menu/tab1', leftView, false);

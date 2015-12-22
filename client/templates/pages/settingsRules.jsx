@@ -16,7 +16,6 @@ Utils.pages.addPage('settings/rules', {
       },
 
       render () {
-        var SettingsTabbar = Utils.elements.getElement('settingsTabbar');
         return (
           <div className="page-wrapper" style={{height: 'calc(100% - 100px)', paddingTop: (Framework7.prototype.device.android===true?'72px':'0px'), paddingBottom: (Framework7.prototype.device.android===true?'55px':'0px')}}>
             <div className="page-content">
@@ -25,10 +24,11 @@ Utils.pages.addPage('settings/rules', {
 
               </div>
             </div>
-            <SettingsTabbar active='settings/rules'/>
+            {this.props.children}
           </div>
         );
       }
     }), props:{}},
-    navbar: {class: Utils.elements.getElement('settingsNavbar'), props:{title:'Settings / Rules'}}
+    navbar: {class: Utils.elements.getElement('settingsNavbar'), props:{title:'Settings / Rules'}},
+    toolbar: {class: Utils.elements.getElement('settingsTabbar'), props:{active:'settings/rules'}}
   });
